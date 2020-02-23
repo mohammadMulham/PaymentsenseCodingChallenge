@@ -1,0 +1,62 @@
+<div class="container">
+        
+            <div class = "card-wrapper">
+                    <div class="card" style="width: 25rem;">
+                            <img [src]="data != null? data.flag : default"  class="card-img-top" style="height:10%" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">{{name}} , {{capital}}</h5>
+                              <p>
+                                  <b>currencies</b>
+                                    
+                              </p>
+                              
+                              <table style="width: 100%;">
+                                  <thead style="background: #3976c2;color: white;">
+                                        <th style="padding: 10px;">code</th>
+                                        <th style="padding: 10px">name</th>
+                                        <th style="padding: 10px; width: 20px">symbol</th>
+                                       
+                                  </thead>
+                                 
+                                  <tbody>
+                                      <tr *ngFor="let currency of data?.currencies; let i=index">
+                                          
+                                            <td>{{currency?.code}}</td>
+                                            <td>{{currency?.name}}</td>
+                                            <td>{{currency?.symbol}}</td>
+                                      </tr>
+                                     
+                                  </tbody>
+                              </table>
+                        
+                              <p>
+                                  <b>languages</b>
+                                    
+                              </p>
+                              <table style="width: 100%;">
+                                    <thead style="background: #3976c2;color: white;">
+                                          <th style="padding: 10px;">name</th>
+                                          <th style="padding: 10px">nativeName</th>
+                                
+                                         
+                                    </thead>
+                                   
+                                    <tbody>
+                                        <tr *ngFor="let currency of data?.languages; let i=index">
+                                             
+                                              <td>{{currency?.name}}</td>
+                                              <td>{{currency?.nativeName}}</td>
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
+                        <br>
+                                  <p>
+                                      <b>timezones :  </b>{{data?.timezones}}
+                                  </p>
+                              <a  routerLink="/countries/" class="btn btn-primary">Back</a>
+                            </div>
+                     </div>
+  
+            </div>
+</div>
