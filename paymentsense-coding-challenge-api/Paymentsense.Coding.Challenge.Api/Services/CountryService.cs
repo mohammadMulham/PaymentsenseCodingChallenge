@@ -14,12 +14,12 @@ namespace Paymentsense.Coding.Challenge.Api.Services
 {
     public class CountryService : ICountryService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpService _httpService;
         private ICacheService _cacheSrv;
 
-        public CountryService(HttpClient httpClient,ICacheService cacheSrv)
+        public CountryService(IHttpService httpService, ICacheService cacheSrv)
         {
-            _httpClient = httpClient;
+            _httpService = httpService;
             _cacheSrv = cacheSrv;
         }
 
@@ -28,7 +28,7 @@ namespace Paymentsense.Coding.Challenge.Api.Services
             var countries = await _cacheSrv.GetCache(() => GetLiveData());
             return countries;
         }
-        public async Task<PagedList<Country>> Get(int page=0,int take=10)
+        public async Task<PagedList<Country>> Get(int page=1,int take=10)
         {
             var countries = await Get();
             var pagedModel = countries.ToPagedList(page, take);
@@ -36,16 +36,14 @@ namespace Paymentsense.Coding.Challenge.Api.Services
         }
         public async Task<Country> GetByName(string name)
         {
-            var url = _httpClient.BaseAddress + $"/name/{name}";
-            var responseString = await _httpClient.GetStringAsync(url);
-            var country = JsonConvert.DeserializeObject<List<Country>>(responseString);
-            return country.FirstOrDefault();
+            var url = $"/name/{name}";
+            var country = await _httpService.Get<List<Country>>(url);
+            return country?.FirstOrDefault();
         }
         public async Task<List<Country>> GetLiveData()
         {
-            var url = _httpClient.BaseAddress + "/all";
-            var responseString = await _httpClient.GetStringAsync(url);
-            var countries = JsonConvert.DeserializeObject<List<Country>>(responseString);
+            var url = "/all";
+            var countries = await _httpService.Get<List<Country>>(url);
             return countries;
         }
     }

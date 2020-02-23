@@ -35,10 +35,11 @@ namespace Paymentsense.Coding.Challenge.Api
                         .AllowAnyHeader();
                 });
             });
-            services.AddHttpClient<ICountryService, CountryService>(client =>
+            services.AddHttpClient<IHttpService, HttpService>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["BaseUrl"]);
             });
+            services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddMemoryCache();
